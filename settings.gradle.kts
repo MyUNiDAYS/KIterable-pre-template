@@ -1,7 +1,6 @@
 pluginManagement {
     repositories {
         google()
-        jcenter()
         gradlePluginPortal()
         mavenCentral()
     }
@@ -14,4 +13,3 @@ pluginManagement {
     }
 }
 rootProject.name = "kiterable"
-

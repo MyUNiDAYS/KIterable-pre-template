@@ -20,8 +20,9 @@ actual class IterableApi internal constructor(val ios: IterableApiImpl) {
 
     actual fun setUserId(userId: String?) = ios.setUserId(userId)
     actual fun getPayloadData(key: String): String? = ios.getPayloadData(key)
-    actual fun getMessages(): List<IterableInAppMessage> = ios.getMessages()
+    actual fun getMessages(): List<IterableInAppMessage> = getInAppManager().messages
     actual fun getMessage(predicate: (IterableInAppMessage) -> Boolean): IterableInAppMessage? = getMessages().firstOrNull(predicate)
+    actual fun getInAppManager(): IterableInAppManager = IterableInAppManager(IterableInAppManagerImpl())
 }
 
 class IterableApiImpl {
@@ -40,8 +41,6 @@ class IterableApiImpl {
     fun getPayloadData(key: String): String? {
         TODO("need to see how this works")
     }
-
-    fun getMessages(): List<IterableInAppMessage> = TODO("need to see how this works")
 
     // inAppManager
     // .getAndTrack(deeplink: url) { (originalUrl) in

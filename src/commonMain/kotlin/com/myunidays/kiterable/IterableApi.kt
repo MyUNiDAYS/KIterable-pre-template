@@ -16,8 +16,7 @@ expect class IterableApi {
 
     fun getPayloadData(key: String): String?
 
-//    fun getInAppManager(): IterableInAppManager   // might not need this, depends how deep we go
-
+    fun getInAppManager(): IterableInAppManager
     fun getMessages(): List<IterableInAppMessage>
 
     fun getMessage(predicate: (IterableInAppMessage) -> Boolean): IterableInAppMessage?

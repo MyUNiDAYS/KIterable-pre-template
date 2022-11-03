@@ -19,7 +19,7 @@ actual class IterableApi internal constructor(val android: com.iterable.iterable
     actual fun setUserId(userId: String?) = android.setUserId(userId)
 
     actual fun getPayloadData(key: String): String? = android.getPayloadData(key)
-
-    actual fun getMessages(): List<IterableInAppMessage> = android.inAppManager.messages.map { IterableInAppMessage(it) }
+    actual fun getMessages(): List<IterableInAppMessage> = getInAppManager().messages
     actual fun getMessage(predicate: (IterableInAppMessage) -> Boolean): IterableInAppMessage? = getMessages().firstOrNull(predicate)
+    actual fun getInAppManager(): IterableInAppManager = IterableInAppManager(android.inAppManager)
 }
