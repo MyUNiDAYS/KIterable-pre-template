@@ -22,6 +22,8 @@ actual class IterableApi internal constructor(val ios: IterableApiImpl) {
     actual fun setUserId(userId: String?) = ios.setUserId(userId)
     actual fun getPayloadData(key: String): String? = ios.getPayloadData(key)
     actual fun getMessages(): List<IterableInAppMessage> = ios.getMessages()
+    actual fun getMessage(predicate: (IterableInAppMessage) -> Boolean): IterableInAppMessage? = getMessages().firstOrNull(predicate)
+
 }
 
 class IterableApiImpl {
