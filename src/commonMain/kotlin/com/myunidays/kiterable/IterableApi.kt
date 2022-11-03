@@ -24,4 +24,3 @@ expect class IterableApi {
 
 //    fun showMessage(message: IterableInAppMessage, consume: Boolean, onClick: IterableHelper.IterableUrlCallback)
 }
-

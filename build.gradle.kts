@@ -69,29 +69,6 @@ kotlin {
 ktlint {
     version.set("0.43.0")
 }
-//
-//// We need to use xcode 13 due to an issue with cocoapod bundles
-//kotlin {
-//    cocoapods {
-//        ios.deploymentTarget = "10.0"
-//        summary = "Some description for a Kotlin/Native module"
-//        homepage = "Link to a Kotlin/Native module homepage"
-//        framework {
-//            baseName = "kiterable"
-//        }
-//        pod("Iterable-iOS-SDK") {
-//            moduleName = "IterableSDK"
-//            source = git("https://github.com/Reedyuk/swift-sdk.git") {
-//                branch = "t/remove-code-sign"
-//            }
-//        }
-////        pod("Iterable-iOS-AppExtensions") {
-////            source = git("https://github.com/Iterable/swift-sdk.git") {
-////                tag = "6.4.7"
-////            }
-////        }
-//    }
-//}
 
 android {
     compileSdk = 31 // we have to set to 31 due to multiplatform settings dependancy having this at 31

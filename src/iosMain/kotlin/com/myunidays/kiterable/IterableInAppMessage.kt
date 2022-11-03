@@ -1,8 +1,6 @@
 package com.myunidays.kiterable
 
-actual class IterableInAppMessage internal constructor(val ios: IterableInAppMessageImpl) {
-
-}
+actual class IterableInAppMessage internal constructor(val ios: IterableInAppMessageImpl)
 
 data class IterableInAppMessageImpl(
     val messageId: String,
