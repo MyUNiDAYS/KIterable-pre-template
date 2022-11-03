@@ -21,5 +21,6 @@ expect class IterableApi {
 
     fun getMessage(predicate: (IterableInAppMessage) -> Boolean): IterableInAppMessage?
 
+    // need to look into the IterableUrlCallback and the action object.
 //    fun showMessage(message: IterableInAppMessage, consume: Boolean, onClick: IterableHelper.IterableUrlCallback)
 }
