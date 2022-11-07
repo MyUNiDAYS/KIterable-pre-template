@@ -9,18 +9,12 @@ expect class IterableApi {
         fun getInstance(): IterableApi
         fun shared(): IterableApi
     }
-
     fun setUserId(userId: String?)
-
-//    fun getPayloadData(): Bundle?
-
+    fun getPayloadData(): PayloadData?
     fun getPayloadData(key: String): String?
-
     fun getInAppManager(): IterableInAppManager
     fun getMessages(): List<IterableInAppMessage>
-
     fun getMessage(predicate: (IterableInAppMessage) -> Boolean): IterableInAppMessage?
-
-    // need to look into the IterableUrlCallback and the action object.
-//    fun showMessage(message: IterableInAppMessage, consume: Boolean, onClick: IterableHelper.IterableUrlCallback)
+    fun showMessage(message: IterableInAppMessage, consume: Boolean, onClick: IterableUrlCallback)
+    fun getAndTrackDeepLink(uri: String, onCallback: IterableActionHandler?)
 }
