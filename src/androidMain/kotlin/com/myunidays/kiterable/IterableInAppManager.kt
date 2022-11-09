@@ -14,7 +14,7 @@ actual class IterableInAppManager internal constructor(private val android: com.
     actual fun showMessage(
         message: IterableInAppMessage,
         consume: Boolean,
-        clickCallback: IterableUrlCallback,
+        clickCallback: IterableHelper.IterableUrlCallback,
     ) {
         android.showMessage(android.messages.first { it.messageId == message.messageId }, consume) { url ->
             url?.let {

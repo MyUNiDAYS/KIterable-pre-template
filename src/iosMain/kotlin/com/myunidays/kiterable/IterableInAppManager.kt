@@ -16,7 +16,7 @@ actual class IterableInAppManager internal constructor(val ios: IterableInAppMan
     actual fun showMessage(
         message: IterableInAppMessage,
         consume: Boolean,
-        clickCallback: IterableUrlCallback,
+        clickCallback: IterableHelper.IterableUrlCallback,
     ) = ios.showMessage(ios.messages.first { it.messageId == message.messageId }, consume, clickCallback)
 }
 
@@ -26,7 +26,7 @@ class IterableInAppManagerImpl {
     val unreadInboxMessagesCount get() = inboxMessages.count()  //needs to be unread ones
     var autoDisplayPaused: Boolean = false
 
-    fun showMessage(message: IterableInAppMessageImpl, consume: Boolean, clickCallback: IterableUrlCallback) {
+    fun showMessage(message: IterableInAppMessageImpl, consume: Boolean, clickCallback: IterableHelper.IterableUrlCallback) {
         TODO("Need to implement")
     }
 }

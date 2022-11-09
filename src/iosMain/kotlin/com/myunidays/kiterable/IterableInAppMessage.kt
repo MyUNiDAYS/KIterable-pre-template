@@ -1,7 +1,9 @@
 package com.myunidays.kiterable
 
+
 actual class IterableInAppMessage internal constructor(val ios: IterableInAppMessageImpl) {
     val messageId: String = ios.messageId
+    actual val customPayload: Payload = TODO("Not yet implemented")
 }
 
 data class IterableInAppMessageImpl(
