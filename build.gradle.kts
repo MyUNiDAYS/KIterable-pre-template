@@ -3,15 +3,18 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     kotlin("multiplatform") version "1.6.21"
     id("com.android.library")
+    id("io.github.luca992.multiplatform-swiftpackage") version "2.0.5-arm64"
 //    kotlin("native.cocoapods") version "1.6.21"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     `maven-publish`
 }
 
-group = "com.myunidays"
-version = "0.0.1"
+val MODULE_PACKAGE_NAME: String by project
+val MODULE_NAME: String by project
+val MODULE_VERSION_NUMBER: String by project
 
-val frameworkName = "kiterable"
+group = MODULE_PACKAGE_NAME
+version = MODULE_VERSION_NUMBER
 
 repositories {
     google()
@@ -26,13 +29,13 @@ kotlin {
     val xcf = XCFramework()
     iosSimulatorArm64 {
         binaries.framework {
-            baseName = frameworkName
+            baseName = MODULE_NAME
             xcf.add(this)
         }
     }
     ios {
         binaries.framework {
-            baseName = frameworkName
+            baseName = MODULE_NAME
             xcf.add(this)
         }
     }
@@ -90,5 +93,13 @@ android {
         unitTests {
             isIncludeAndroidResources = true
         }
+    }
+}
+
+multiplatformSwiftPackage {
+    packageName(MODULE_NAME)
+    swiftToolsVersion("5.4")
+    targetPlatforms {
+        iOS { v("13") }
     }
 }

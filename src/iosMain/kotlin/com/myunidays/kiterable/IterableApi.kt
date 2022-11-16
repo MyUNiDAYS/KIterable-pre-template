@@ -1,23 +1,38 @@
 package com.myunidays.kiterable
 
-actual class IterableApi internal constructor(val ios: IterableApiImpl) {
+import com.myunidays.kiterable.models.Context
+import com.myunidays.kiterable.models.IterableConfig
+import com.myunidays.kiterable.models.IterableInAppMessage
+import com.myunidays.kiterable.models.PayloadData
+import platform.Foundation.NSData
+import platform.UIKit.UIApplicationLaunchOptionsKey
+
+val shared: IterableApi get() = IterableApi.getInstance()
+
+actual class IterableApi internal constructor(private val ios: IterableApiImpl) {
     actual companion object {
-        private val internalInstance = IterableApiImpl()
+        private lateinit var internalInstance: IterableApiImpl
 
         actual fun initialize(context: Context, apiKey: String, config: IterableConfig): IterableApi {
-            internalInstance.initialize(apiKey)
+            throw Error("iOS needs to use the initialize method with IterableApiImpl being passed.")
+        }
+
+        fun initialize(ios: IterableApiImpl, apiKey: String, launchOptions: Map<UIApplicationLaunchOptionsKey, Any>, config: IterableConfig): IterableApi {
+            internalInstance = ios
+            internalInstance.initialize(apiKey, launchOptions, config)
             return instance
         }
 
         actual fun getInstance(): IterableApi = instance
 
-        actual fun shared(): IterableApi = instance
-
         private val instance: IterableApi by lazy {
             IterableApi(internalInstance)
         }
     }
-
+    actual val payloadData: PayloadData?
+        get() = ios.getPayloadData()
+    actual val inAppManager: IterableInAppManager
+        get() = ios.inAppManager
     actual fun setUserId(userId: String?) = ios.setUserId(userId)
     actual fun setEmail(email: String?) = ios.setEmail(email)
     actual fun getPayloadData(key: String): String? = ios.getPayloadData(key)
@@ -28,47 +43,20 @@ actual class IterableApi internal constructor(val ios: IterableApiImpl) {
         consume: Boolean,
         onClick: IterableHelper.IterableUrlCallback,
     ) = inAppManager.showMessage(message, consume, onClick)
-
-    actual fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler) = ios.getAndTrackDeepLink(uri, onCallback)
-    actual val payloadData: PayloadData?
-        get() = ios.getPayloadData()
-    actual val inAppManager: IterableInAppManager
-        get() = ios.inAppManager
+    actual fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler?) = ios.getAndTrackDeepLink(uri, onCallback)
+    fun register(token: NSData) = ios.register(token)
+    fun disableDeviceForCurrentUser() = ios.disableDeviceForCurrentUser()
 }
 
-class IterableApiImpl {
-
-    private lateinit var apiKey: String
-    lateinit var inAppManager: IterableInAppManager
-
-    fun initialize(key: String) {
-        apiKey = key
-    }
-    // apiKey: iterableApiKey, launchOptions: launchOptions, config: config
-
-    fun setUserId(userId: String?) {
-        TODO("need to see how this works")
-    }
-
-    fun setEmail(email: String?) {
-        TODO("need to see how this works")
-    }
-
-    fun getPayloadData(): PayloadData? = null
-
-    fun getPayloadData(key: String): String? {
-        TODO("need to see how this works")
-    }
-
-    fun getMessages(): List<IterableInAppMessage> = TODO("need to see how this works")
-
-    fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler?) {
-        TODO("need to see how this works")
-    }
-
-    // inAppManager
-    // .getAndTrack(deeplink: url) { (originalUrl) in
-    // .register(token: token)
-    // .userId
-    // .disableDeviceForCurrentUser()
+interface IterableApiImpl {
+    val inAppManager: IterableInAppManager
+    fun initialize(apiKey: String, launchOptions: Map<UIApplicationLaunchOptionsKey, Any>?, config: IterableConfig)
+    fun setUserId(userId: String?)
+    fun setEmail(email: String?)
+    fun getPayloadData(): PayloadData?
+    fun getPayloadData(key: String): String?
+    fun getMessages(): List<IterableInAppMessage>
+    fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler?)
+    fun register(token: NSData)
+    fun disableDeviceForCurrentUser()
 }

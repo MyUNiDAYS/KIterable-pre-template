@@ -1,6 +1,9 @@
 package com.myunidays.kiterable
 
-actual class IterableInAppManager internal constructor(val ios: IterableInAppManagerImpl) {
+import com.myunidays.kiterable.models.IterableInAppMessage
+import com.myunidays.kiterable.models.IterableInAppMessageImpl
+
+actual class IterableInAppManager constructor(private val ios: IterableInAppManagerImpl) {
     actual val messages: List<IterableInAppMessage>
         get() = ios.messages.map { IterableInAppMessage(it) }
 
@@ -20,13 +23,11 @@ actual class IterableInAppManager internal constructor(val ios: IterableInAppMan
     ) = ios.showMessage(ios.messages.first { it.messageId == message.messageId }, consume, clickCallback)
 }
 
-class IterableInAppManagerImpl {
-    val messages: List<IterableInAppMessageImpl> = emptyList()
-    val inboxMessages: List<IterableInAppMessageImpl> = emptyList()
-    val unreadInboxMessagesCount get() = inboxMessages.count()  //needs to be unread ones
-    var autoDisplayPaused: Boolean = false
+interface IterableInAppManagerImpl {
+    val messages: List<IterableInAppMessageImpl>
+    val inboxMessages: List<IterableInAppMessageImpl>
+    val unreadInboxMessagesCount get() = inboxMessages.count() // needs to be unread ones
+    var autoDisplayPaused: Boolean
 
-    fun showMessage(message: IterableInAppMessageImpl, consume: Boolean, clickCallback: IterableHelper.IterableUrlCallback) {
-        TODO("Need to implement")
-    }
+    fun showMessage(message: IterableInAppMessageImpl, consume: Boolean, clickCallback: IterableHelper.IterableUrlCallback)
 }

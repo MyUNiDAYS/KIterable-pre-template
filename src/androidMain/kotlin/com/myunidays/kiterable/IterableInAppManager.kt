@@ -1,5 +1,7 @@
 package com.myunidays.kiterable
 
+import com.myunidays.kiterable.models.IterableInAppMessage
+
 actual class IterableInAppManager internal constructor(private val android: com.iterable.iterableapi.IterableInAppManager) {
     actual val messages: List<IterableInAppMessage>
         get() = android.messages.map { IterableInAppMessage(it) }
@@ -22,6 +24,4 @@ actual class IterableInAppManager internal constructor(private val android: com.
             }
         }
     }
-
-
 }

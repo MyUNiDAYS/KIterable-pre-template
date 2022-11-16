@@ -1,5 +1,10 @@
 package com.myunidays.kiterable
 
+import com.myunidays.kiterable.models.Context
+import com.myunidays.kiterable.models.IterableConfig
+import com.myunidays.kiterable.models.IterableInAppMessage
+import com.myunidays.kiterable.models.PayloadData
+
 expect class IterableApi {
 
     companion object {
@@ -7,7 +12,6 @@ expect class IterableApi {
         fun initialize(context: Context, apiKey: String, config: IterableConfig): IterableApi
 
         fun getInstance(): IterableApi
-        fun shared(): IterableApi
     }
 
     val payloadData: PayloadData?
@@ -18,5 +22,5 @@ expect class IterableApi {
     fun getMessages(): List<IterableInAppMessage>
     fun getMessage(predicate: (IterableInAppMessage) -> Boolean): IterableInAppMessage?
     fun showMessage(message: IterableInAppMessage, consume: Boolean, onClick: IterableHelper.IterableUrlCallback)
-    fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler)
+    fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler?)
 }

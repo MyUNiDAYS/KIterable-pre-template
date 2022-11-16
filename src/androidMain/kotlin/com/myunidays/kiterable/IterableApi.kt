@@ -1,5 +1,10 @@
 package com.myunidays.kiterable
 
+import com.myunidays.kiterable.models.Context
+import com.myunidays.kiterable.models.IterableConfig
+import com.myunidays.kiterable.models.IterableInAppMessage
+import com.myunidays.kiterable.models.PayloadData
+
 actual class IterableApi internal constructor(private val android: com.iterable.iterableapi.IterableApi) {
     actual companion object {
         actual fun initialize(context: Context, apiKey: String, config: IterableConfig): IterableApi {
@@ -10,8 +15,6 @@ actual class IterableApi internal constructor(private val android: com.iterable.
             initialize(context, apiKey, config.build())
 
         actual fun getInstance(): IterableApi = internalInstance
-
-        actual fun shared(): IterableApi = internalInstance
 
         private val internalInstance: IterableApi by lazy {
             IterableApi(com.iterable.iterableapi.IterableApi.getInstance())
@@ -35,6 +38,6 @@ actual class IterableApi internal constructor(private val android: com.iterable.
         onClick: IterableHelper.IterableUrlCallback,
     ) = inAppManager.showMessage(message, consume, onClick)
 
-    actual fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler) =
-        android.getAndTrackDeepLink(uri) { onCallback.execute(it) }
+    actual fun getAndTrackDeepLink(uri: String, onCallback: IterableHelper.IterableActionHandler?) =
+        android.getAndTrackDeepLink(uri) { onCallback?.execute(it) }
 }
