@@ -38,10 +38,9 @@ jobs:
           path: swiftpackage/kiterable-${{ github.ref_name }}.zip
       - name: Get last release
         id: lastRelease
-        uses: pozetroninc/github-action-get-latest-release@master
+        uses: pozetroninc/github-action-get-latest-release@0.5.0
         with:
-          owner: MyUNiDAYS
-          repo: KIterable
+          repository: ${{ github.repository }}
           excludes: prerelease, draft
       - name: upload iOS artifact to release
         uses: actions/upload-release-asset@v1
