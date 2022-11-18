@@ -8,25 +8,27 @@ import platform.Foundation.NSData
 import platform.UIKit.UIApplicationLaunchOptionsKey
 
 val shared: IterableApi get() = IterableApi.getInstance()
+val optionalShared: IterableApi? get() = IterableApi.getOptionalInstance()
 
-actual class IterableApi internal constructor(private val ios: IterableApiImpl) {
+private var internalInstance: IterableApiInterface? = null
+actual class IterableApi internal constructor(private val ios: IterableApiInterface) {
     actual companion object {
-        private lateinit var internalInstance: IterableApiImpl
-
         actual fun initialize(context: Context, apiKey: String, config: IterableConfig): IterableApi {
             throw Error("iOS needs to use the initialize method with IterableApiImpl being passed.")
         }
 
-        fun initialize(ios: IterableApiImpl, apiKey: String, launchOptions: Map<UIApplicationLaunchOptionsKey, Any>, config: IterableConfig): IterableApi {
+        fun initialize(ios: IterableApiInterface, apiKey: String, launchOptions: Map<UIApplicationLaunchOptionsKey, Any>, config: IterableConfig): IterableApi {
             internalInstance = ios
-            internalInstance.initialize(apiKey, launchOptions, config)
+            internalInstance!!.initialize(apiKey, launchOptions, config)
             return instance
         }
 
         actual fun getInstance(): IterableApi = instance
 
+        fun getOptionalInstance(): IterableApi? = if(internalInstance != null) instance else null
+
         private val instance: IterableApi by lazy {
-            IterableApi(internalInstance)
+            IterableApi(internalInstance!!)
         }
     }
     actual val payloadData: PayloadData?
@@ -48,7 +50,7 @@ actual class IterableApi internal constructor(private val ios: IterableApiImpl) 
     fun disableDeviceForCurrentUser() = ios.disableDeviceForCurrentUser()
 }
 
-interface IterableApiImpl {
+interface IterableApiInterface {
     val inAppManager: IterableInAppManager
     fun initialize(apiKey: String, launchOptions: Map<UIApplicationLaunchOptionsKey, Any>?, config: IterableConfig)
     fun setUserId(userId: String?)

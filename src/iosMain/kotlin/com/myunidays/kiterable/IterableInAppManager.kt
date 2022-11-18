@@ -3,7 +3,7 @@ package com.myunidays.kiterable
 import com.myunidays.kiterable.models.IterableInAppMessage
 import com.myunidays.kiterable.models.IterableInAppMessageImpl
 
-actual class IterableInAppManager constructor(private val ios: IterableInAppManagerImpl) {
+actual class IterableInAppManager constructor(private val ios: IterableInAppManagerInterface) {
     actual val messages: List<IterableInAppMessage>
         get() = ios.messages.map { IterableInAppMessage(it) }
 
@@ -23,7 +23,7 @@ actual class IterableInAppManager constructor(private val ios: IterableInAppMana
     ) = ios.showMessage(ios.messages.first { it.messageId == message.messageId }, consume, clickCallback)
 }
 
-interface IterableInAppManagerImpl {
+interface IterableInAppManagerInterface {
     val messages: List<IterableInAppMessageImpl>
     val inboxMessages: List<IterableInAppMessageImpl>
     val unreadInboxMessagesCount get() = inboxMessages.count() // needs to be unread ones
