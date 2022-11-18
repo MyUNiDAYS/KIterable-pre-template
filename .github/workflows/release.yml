@@ -34,5 +34,5 @@ jobs:
       - name: Archive iOS Framework
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ref_name }}
+          name: ${{ github.ref_name }}
           path: swiftpackage/kiterable-${{ github.ref_name }}.zip
