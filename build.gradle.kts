@@ -6,6 +6,7 @@ plugins {
     id("io.github.luca992.multiplatform-swiftpackage") version "2.0.5-arm64"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     `maven-publish`
+    signing
 }
 
 val MODULE_PACKAGE_NAME: String by project
@@ -101,4 +102,12 @@ multiplatformSwiftPackage {
     targetPlatforms {
         iOS { v("13") }
     }
+}
+
+signing {
+    whenRequired { gradle.taskGraph.hasTask("publish") }
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign(publishing.publications)
 }
