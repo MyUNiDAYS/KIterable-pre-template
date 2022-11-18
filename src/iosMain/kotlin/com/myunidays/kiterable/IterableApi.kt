@@ -25,7 +25,7 @@ actual class IterableApi internal constructor(private val ios: IterableApiInterf
 
         actual fun getInstance(): IterableApi = instance
 
-        fun getOptionalInstance(): IterableApi? = if(internalInstance != null) instance else null
+        fun getOptionalInstance(): IterableApi? = if (internalInstance != null) instance else null
 
         private val instance: IterableApi by lazy {
             IterableApi(internalInstance!!)

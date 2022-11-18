@@ -4,7 +4,6 @@ plugins {
     kotlin("multiplatform") version "1.6.21"
     id("com.android.library")
     id("io.github.luca992.multiplatform-swiftpackage") version "2.0.5-arm64"
-//    kotlin("native.cocoapods") version "1.6.21"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     `maven-publish`
 }

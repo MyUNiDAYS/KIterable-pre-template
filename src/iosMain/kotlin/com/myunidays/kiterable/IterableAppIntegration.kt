@@ -6,7 +6,7 @@ import platform.UIKit.UIBackgroundFetchResult
 import platform.UserNotifications.UNNotificationResponse
 import platform.UserNotifications.UNUserNotificationCenter
 
-class IterableAppIntegration constructor(private val ios: IterableAppIntegrationInterface){
+class IterableAppIntegration constructor(private val ios: IterableAppIntegrationInterface) {
 
     fun application(
         application: UIApplication,
