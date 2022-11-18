@@ -38,10 +38,11 @@ jobs:
           path: swiftpackage/kiterable-${{ github.ref_name }}.zip
       - name: Get last release
         id: lastRelease
-        uses: pozetroninc/github-action-get-latest-release@master
+        uses: InsonusK/get-latest-release@v1.0.1
         with:
-          repository: ${{ github.repository }}
-          excludes: prerelease, draft
+          myToken: ${{ github.token }}
+          exclude_types: draft|prerelease
+          view_top: 1
       - name: upload iOS artifact to release
         uses: actions/upload-release-asset@v1
         env:
