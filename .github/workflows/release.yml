@@ -38,7 +38,7 @@ jobs:
           path: swiftpackage/kiterable-${{ github.ref_name }}.zip
       - name: Get last release
         id: lastRelease
-        uses: pozetroninc/github-action-get-latest-release@0.5.0
+        uses: pozetroninc/github-action-get-latest-release@master
         with:
           repository: ${{ github.repository }}
           excludes: prerelease, draft
