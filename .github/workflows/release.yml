@@ -12,6 +12,12 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Update version property
+        uses: Reedyuk/write-properties@v1.0.3
+        with:
+          path: 'gradle.properties'
+          property: 'MODULE_VERSION_NUMBER'
+          value: ${{ github.ref }}
       - name: Setup cocoapods
         run: gem install cocoapods-generate
       - name: Run gradle build
@@ -29,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.GITHUB_REF }}
-          path: swiftpackage/kiterable-${{ env.GITHUB_REF }}.zip
+          path: swiftpackage/kiterable-${{ github.ref }}.zip
