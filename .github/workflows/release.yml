@@ -16,6 +16,8 @@ jobs:
         run: gem install cocoapods-generate
       - name: Run gradle build
         run: ./gradlew build
+      - name: Run create swift package
+        run: ./gradlew createSwiftPackage
       - name: Run publish
         run: ./gradlew publish
         env:
@@ -23,3 +25,8 @@ jobs:
           sonatypePasswordEnv: ${{ secrets.SONATYPEPASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_KEY_PASS }}
+      - name: Archive iOS Framework
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.GITHUB_REF }}
+          path: swiftpackage/kiterable-${{ env.GITHUB_REF }}.zip
