@@ -17,7 +17,7 @@ jobs:
         with:
           path: 'gradle.properties'
           property: 'MODULE_VERSION_NUMBER'
-          value: ${{ github.ref }}
+          value: ${{ github.ref_name }}
       - name: Setup cocoapods
         run: gem install cocoapods-generate
       - name: Run gradle build
@@ -34,5 +34,5 @@ jobs:
       - name: Archive iOS Framework
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.GITHUB_REF }}
-          path: swiftpackage/kiterable-${{ github.ref }}.zip
+          name: ${{ env.ref_name }}
+          path: swiftpackage/kiterable-${{ github.ref_name }}.zip
