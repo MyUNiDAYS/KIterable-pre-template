@@ -72,10 +72,6 @@ kotlin {
     }
 }
 
-ktlint {
-    version.set("0.43.0")
-}
-
 android {
     compileSdk = 31 // we have to set to 31 due to multiplatform settings dependancy having this at 31
     buildToolsVersion = "30.0.3"
@@ -101,6 +97,75 @@ multiplatformSwiftPackage {
     swiftToolsVersion("5.4")
     targetPlatforms {
         iOS { v("13") }
+    }
+}
+
+ktlint {
+    version.set("0.43.0")
+}
+
+fun SigningExtension.whenRequired(block: () -> Boolean) {
+    setRequired(block)
+}
+
+val javadocJar by tasks.creating(Jar::class) {
+    archiveClassifier.value("javadoc")
+}
+
+publishing {
+    val OPEN_SOURCE_REPO: String by project
+    val PUBLISH_NAME: String by project
+    val PUBLISH_DESCRIPTION: String by project
+    val PUBLISH_URL: String by project
+    val PUBLISH_DEVELOPER_ID: String by project
+    val PUBLISH_DEVELOPER_NAME: String by project
+    val PUBLISH_DEVELOPER_EMAIL: String by project
+    val PUBLISH_SCM_URL: String by project
+    val PUBLISH_SCM_CONNECTION: String by project
+    val PUBLISH_SCM_DEVELOPERCONNECTION: String by project
+
+    repositories {
+        maven {
+            url = uri(OPEN_SOURCE_REPO)
+
+            credentials {
+                username = System.getenv("sonatypeUsernameEnv")
+                password = System.getenv("sonatypePasswordEnv")
+            }
+        }
+    }
+
+    publications.all {
+        this as MavenPublication
+
+        artifact(javadocJar)
+
+        pom {
+            name.set(PUBLISH_NAME)
+            description.set(PUBLISH_DESCRIPTION)
+            url.set(PUBLISH_URL)
+
+            licenses {
+                license {
+                    name.set("MIT License")
+                    url.set("http://opensource.org/licenses/MIT")
+                }
+            }
+
+            developers {
+                developer {
+                    id.set(PUBLISH_DEVELOPER_ID)
+                    name.set(PUBLISH_DEVELOPER_NAME)
+                    email.set(PUBLISH_DEVELOPER_EMAIL)
+                }
+            }
+
+            scm {
+                url.set(PUBLISH_SCM_URL)
+                connection.set(PUBLISH_SCM_CONNECTION)
+                developerConnection.set(PUBLISH_SCM_DEVELOPERCONNECTION)
+            }
+        }
     }
 }
 
