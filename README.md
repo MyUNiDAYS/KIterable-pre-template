@@ -9,29 +9,58 @@ The KIterable Kotlin SDK is a Kotlin-first SDK for Iterable. Its API is similar 
 ### KMM
 
 ```
-implementation("com.myunidays:kiterable:0.0.1")
+implementation("com.myunidays:kiterable:0.0.13")
 ```
 
 ### Android
 
 ```
-implementation("com.myunidays:kiterable-android:0.0.1")
+implementation("com.myunidays:kiterable-android:0.0.13")
 ```
 
 ### iOS
 
-Run gradle task in this project
-```
-./gradlew assembleXCFramework
+Add to the binary to your swift package like this:
+
+```swift
+        .binaryTarget(
+            name: "kiterable",
+            url: "https://github.com/MyUNiDAYS/KIterable/releases/download/0.0.13/0.0.13.zip",
+            checksum: "8c35293a410f4ec5d150c4f5464f6b5cf04a1a15d1ae9c29126bb0b7a7dc2a54"
+        ),
 ```
 
-Locate the framework in the following directory
-```
-build/XCFrameworks/
-```
-Add the xcframework file to your xcode project, OR you can grab it from this repo in Examples/ios/frameworks/
+Where 0.0.13 is the release number, you will also need to change the checksum, xcode will tell you the different checksum if its wrong and just update that from the error message.
 
 ## How to use
+
+### KMM & Android
+
+Initialise the lib, in the case for Android, context is ContextWrapper, which you get from application context.
+
+```kotlin
+IterableApi.initialize(context, apiKey = "123", config: IterableConfig())
+```
+
+Then call the api - its very similiar to the Android api.
+
+```kotlin
+IterableApi.getInstance().setUserId("billyBob")
+```
+
+### iOS
+
+When using the library in iOS, you MUST implement the IterableApiInterface
+
+```swift
+class KiterableApi: IterableApiInterface {
+```
+
+Then you can call this file with the iterable api requests.
+
+```swift
+kiterableApi.setUserId(userId: "billyBob")
+```
 
 ## Contributing
 
