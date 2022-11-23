@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     kotlin("multiplatform") version "1.6.21"
     id("com.android.library")
-    id("io.github.luca992.multiplatform-swiftpackage") version "2.0.5-arm64"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     `maven-publish`
     signing
@@ -26,7 +25,7 @@ kotlin {
         publishAllLibraryVariants()
     }
 
-    val xcf = XCFramework()
+    val xcf = XCFramework(MODULE_NAME)
     iosSimulatorArm64 {
         binaries.framework {
             baseName = MODULE_NAME
@@ -89,14 +88,6 @@ android {
         unitTests {
             isIncludeAndroidResources = true
         }
-    }
-}
-
-multiplatformSwiftPackage {
-    packageName(MODULE_NAME)
-    swiftToolsVersion("5.4")
-    targetPlatforms {
-        iOS { v("13") }
     }
 }
 

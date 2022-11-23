@@ -22,8 +22,8 @@ jobs:
         run: gem install cocoapods-generate
       - name: Run gradle build
         run: ./gradlew build
-      - name: Run create swift package
-        run: ./gradlew createSwiftPackage
+      - name: Create xcframework
+        run: ./gradlew assembleKIterableSDKXCFramework
       - name: Run publish
         run: ./gradlew publish
         env:
@@ -31,11 +31,6 @@ jobs:
           sonatypePasswordEnv: ${{ secrets.SONATYPEPASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_KEY_PASS }}
-      - name: Archive iOS Framework
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ github.ref_name }}
-          path: swiftpackage/kiterable-${{ github.ref_name }}.zip
       - name: Get last release
         id: lastRelease
         uses: InsonusK/get-latest-release@v1.0.1
@@ -48,7 +43,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: https://uploads.github.com/repos/MyUNiDAYS/KIterable/releases/${{ steps.lastRelease.outputs.id }}/assets?name=${{ github.ref_name }}.zip
-          asset_path: swiftpackage/kiterable-${{ github.ref_name }}.zip
+          upload_url: https://uploads.github.com/repos/MyUNiDAYS/kiterable/releases/${{ steps.lastRelease.outputs.id }}/assets?name=${{ github.ref_name }}.zip
+          asset_path: build/XCFrameworks/release/KIterableSDK.xcframework
           asset_name: ${{ github.ref_name }}.zip
           asset_content_type: application/zip
